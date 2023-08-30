@@ -112,38 +112,40 @@ public class POS_Setting extends javax.swing.JFrame {
     }//GEN-LAST:event_comboBoxActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     try {                                         
-        // TODO add your handling code here:
-        String mname = comboBox.getSelectedItem().toString();
-        
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root","");
-        
-        // Set autocommit to false
-        con1.setAutoCommit(false);
-        
-        // Create the PreparedStatement for the update query
-        insert = con1.prepareStatement("UPDATE pos_metchant_name SET Merchant_Name=? WHERE Merchant_Name=? ");
-        insert.setString(1, mname);
-        insert.setString(2, mname);
-        insert.executeUpdate();
-        // Commit the transaction
-        con1.commit();
-        
-        // Set autocommit back to true
-        con1.setAutoCommit(true);
-        System.out.println(insert);
-        
-        JOptionPane.showMessageDialog(this, "Product Updated Successfully");
-    } catch (ClassNotFoundException | SQLException ex) {
-        try {
-            con1.rollback();
-        } catch (SQLException rollbackEx) {
-            // Handle rollback exception if needed
-            rollbackEx.printStackTrace();
-        }
-        Logger.getLogger(POS_Setting.class.getName()).log(Level.SEVERE, null, ex);
+try {                                         
+    // TODO add your handling code here:
+    String mname = comboBox.getSelectedItem().toString();
+    
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root","");
+    
+    // Set autocommit to false
+    con1.setAutoCommit(false);
+    
+    // Create the PreparedStatement for the update query
+    insert = con1.prepareStatement("UPDATE pos_metchant_name SET Merchant_Name=? WHERE Merchant_Name=? ");
+    String Merchant_Name = null;
+    insert.setString(1, Merchant_Name);  // Set the new merchant name here
+    insert.setString(2, mname);  // Set the old merchant name here
+    insert.executeUpdate();
+    // Commit the transaction
+    con1.commit();
+    
+    // Set autocommit back to true
+    con1.setAutoCommit(true);
+    System.out.println(insert);
+    
+    JOptionPane.showMessageDialog(this, "Product Updated Successfully");
+} catch (ClassNotFoundException | SQLException ex) {
+    try {
+        con1.rollback();
+    } catch (SQLException rollbackEx) {
+        // Handle rollback exception if needed
+        rollbackEx.printStackTrace();
     }
+    Logger.getLogger(POS_Setting.class.getName()).log(Level.SEVERE, null, ex);
+}
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
