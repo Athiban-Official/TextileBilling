@@ -32,6 +32,7 @@ public class SellingProducts extends javax.swing.JFrame {
     public SellingProducts() {
         initComponents();
         KeyBordShortCut();
+        Merchant_nameDisplay();
        // this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -57,7 +58,7 @@ public class SellingProducts extends javax.swing.JFrame {
         txtProductID = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtProductName = new javax.swing.JTextField();
-        javax.swing.JLabel jLabel7 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         txtQty = new javax.swing.JTextField();
         txtRate = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -65,12 +66,13 @@ public class SellingProducts extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         TXTbillno = new javax.swing.JLabel();
+        Merchant_name = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        javax.swing.JLabel jLabel8 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         txtTOT = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel9 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -163,10 +165,16 @@ public class SellingProducts extends javax.swing.JFrame {
         TXTbillno.setForeground(new java.awt.Color(255, 255, 255));
         TXTbillno.setText("0");
 
+        Merchant_name.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        Merchant_name.setForeground(new java.awt.Color(255, 255, 255));
+        Merchant_name.setText("Merchant name ");
+        Merchant_name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -194,14 +202,18 @@ public class SellingProducts extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TXTbillno, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(TXTbillno, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(457, 457, 457)
+                        .addComponent(Merchant_name, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(23, Short.MAX_VALUE))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(49, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(Merchant_name)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
@@ -592,6 +604,30 @@ public class SellingProducts extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnClearActionPerformed
 
+    private void Merchant_nameDisplay(){
+        
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling", "root", "");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT Merchant_Name FROM pos_metchant_name WHERE id = 1");
+
+            if (resultSet.next()) {
+                String merchantName = resultSet.getString("Merchant_Name");
+                Merchant_name.setText(merchantName);
+            } else {
+                Merchant_name.setText("Merchant Name not found");
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Merchant_name.setText("Error retrieving merchant name");
+        }
+        
+    }
+    
     private void txtBarcode_valKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBarcode_valKeyReleased
         try {
            
@@ -896,6 +932,7 @@ public class SellingProducts extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Merchant_name;
     private javax.swing.JLabel TXTbillno;
     private javax.swing.JLabel amtTXT;
     private javax.swing.JTextArea bill;
@@ -916,6 +953,9 @@ public class SellingProducts extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
