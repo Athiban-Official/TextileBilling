@@ -185,8 +185,6 @@ public class Home extends javax.swing.JFrame {
         POS_Setting pos_setting = new POS_Setting();
         pos_setting.setVisible(true);
         
-       
-        
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void menuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemActionPerformed

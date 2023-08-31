@@ -81,8 +81,7 @@ public class AddProducts extends javax.swing.JFrame {
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(AddProducts.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
-         
+     
      }
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -399,7 +398,6 @@ public class AddProducts extends javax.swing.JFrame {
             pQty.setText("");
             pBarcode.setText("");
             pID.requestFocus();
-                
                 
             }
             //tableDisplay();
