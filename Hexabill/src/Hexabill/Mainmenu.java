@@ -30,6 +30,7 @@ public class Mainmenu extends javax.swing.JFrame {
         minmaxcloase = new javax.swing.JPanel();
         menu = new javax.swing.JPanel();
         menuIcons = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         menuhide = new javax.swing.JPanel();
         dashboardview = new javax.swing.JPanel();
 
@@ -50,17 +51,22 @@ public class Mainmenu extends javax.swing.JFrame {
 
         menuIcons.setBackground(new java.awt.Color(0, 0, 102));
         menuIcons.setPreferredSize(new java.awt.Dimension(50, 450));
+        menuIcons.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout menuIconsLayout = new javax.swing.GroupLayout(menuIcons);
-        menuIcons.setLayout(menuIconsLayout);
-        menuIconsLayout.setHorizontalGroup(
-            menuIconsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel1.setPreferredSize(new java.awt.Dimension(50, 5));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 50, Short.MAX_VALUE)
         );
-        menuIconsLayout.setVerticalGroup(
-            menuIconsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 450, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 10, Short.MAX_VALUE)
         );
+
+        menuIcons.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 10));
 
         menu.add(menuIcons, java.awt.BorderLayout.LINE_START);
 
@@ -138,6 +144,7 @@ public class Mainmenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel dashboardview;
     private javax.swing.JPanel header;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel menu;
     private javax.swing.JPanel menuIcons;
     private javax.swing.JPanel menuhide;
