@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -46,7 +47,7 @@ public class SellingProducts extends javax.swing.JFrame {
     Connection con;
     PreparedStatement ps;
     DefaultTableModel model;
-   
+      
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -64,8 +65,6 @@ public class SellingProducts extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        TXTbillno = new javax.swing.JLabel();
         Merchant_name = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -157,14 +156,6 @@ public class SellingProducts extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTable1);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Bill No : ");
-
-        TXTbillno.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        TXTbillno.setForeground(new java.awt.Color(255, 255, 255));
-        TXTbillno.setText("0");
-
         Merchant_name.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Merchant_name.setForeground(new java.awt.Color(255, 255, 255));
         Merchant_name.setText("Merchant name ");
@@ -192,21 +183,18 @@ public class SellingProducts extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(txtRate, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel6))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel6))
+                            .addComponent(txtRate, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(797, 797, 797)
-                        .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TXTbillno, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(457, 457, 457)
                         .addComponent(Merchant_name, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(204, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,10 +214,7 @@ public class SellingProducts extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(TXTbillno)))
+                        .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
@@ -519,6 +504,7 @@ public class SellingProducts extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+    
     
     private void performAddAction(){
         
@@ -879,7 +865,17 @@ public class SellingProducts extends javax.swing.JFrame {
             Logger.getLogger(SellingProducts.class.getName()).log(Level.SEVERE, null, ex);
         }*/
        
-       BtnSaveBill();
+       
+       
+      
+        JComboBox<String> comboBox = new JComboBox<>();
+        comboBox.addItem("Paid");
+        comboBox.addItem("UnPaid");
+        
+        JOptionPane.showMessageDialog(this, comboBox, "Select an option", JOptionPane.QUESTION_MESSAGE);
+       
+        BtnSaveBill();
+       
        model.setRowCount(0);
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -933,7 +929,6 @@ public class SellingProducts extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Merchant_name;
-    private javax.swing.JLabel TXTbillno;
     private javax.swing.JLabel amtTXT;
     private javax.swing.JTextArea bill;
     private javax.swing.JButton btnAdd;
@@ -942,7 +937,6 @@ public class SellingProducts extends javax.swing.JFrame {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnSave;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1025,6 +1019,12 @@ public class SellingProducts extends javax.swing.JFrame {
         try {
         // Generate a unique bill number
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        
+        JComboBox<String> comboBox = new JComboBox<>();
+        comboBox.addItem("Paid");
+        comboBox.addItem("UnPaid");
+        
+        JOptionPane.showMessageDialog(this, comboBox, "Select an option", JOptionPane.QUESTION_MESSAGE);
         
         String billNumber = generateUniqueBillNumber();
         PreparedStatement billNumberStatement = con.prepareStatement("INSERT INTO bill_number (bill_number) VALUES (?)", Statement.RETURN_GENERATED_KEYS);

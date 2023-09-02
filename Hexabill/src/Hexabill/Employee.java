@@ -4,7 +4,6 @@
  */
 package Hexabill;
 
-import java.awt.Event;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
