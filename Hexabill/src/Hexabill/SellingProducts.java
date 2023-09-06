@@ -6,7 +6,6 @@ package Hexabill;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.print.PrinterException;
 import java.sql.Connection;
