@@ -652,6 +652,9 @@ public class SellingProducts extends javax.swing.JFrame {
     
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
         
+        
+        
+        
         bill_print();
         
     }//GEN-LAST:event_btnPrintActionPerformed
@@ -1020,12 +1023,12 @@ public class SellingProducts extends javax.swing.JFrame {
         // Generate a unique bill number
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         
-        JComboBox<String> comboBox = new JComboBox<>();
+       /* JComboBox<String> comboBox = new JComboBox<>();
         comboBox.addItem("Paid");
         comboBox.addItem("UnPaid");
         
         JOptionPane.showMessageDialog(this, comboBox, "Select an option", JOptionPane.QUESTION_MESSAGE);
-        
+        */
         String billNumber = generateUniqueBillNumber();
         PreparedStatement billNumberStatement = con.prepareStatement("INSERT INTO bill_number (bill_number) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
         billNumberStatement.setString(1, billNumber);
@@ -1104,6 +1107,31 @@ private void SelectProducts(){
             }
             }
 }
+
+        private void InvoiceTable(){
+            
+         /*   try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                con = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling", "root", "");
+                for (int row = 0; row < model.getRowCount(); row++) {
+                    String name = (String) model.getValueAt(row, 2);
+                    int quantity = (int) model.getValueAt(row, 4);
+                    float price = (float) model.getValueAt(row, 5);
+                    ps = con.prepareStatement("INSERT INTO billing_products(BILL_ID, PRODUCT_NAME, PRODUCT_QTY, PRODUCT_AMT) VALUES(?,?,?,?)");
+                    ps.setString(2, name);
+                    ps.setInt(3, quantity);
+                    ps.setFloat(4, price);
+                    ps.executeUpdate();
+                }
+
+            JOptionPane.showMessageDialog(this, "Billing Table Added with Bill Number: ");  
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AddProducts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           */
+
+        }
 
     //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
 }
