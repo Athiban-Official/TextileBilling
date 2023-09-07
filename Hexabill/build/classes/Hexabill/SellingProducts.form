@@ -97,7 +97,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField1" min="-2" pref="165" max="-2" attributes="0"/>
+                              <Component id="customer_name" min="-2" pref="165" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -132,7 +132,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="txtQty" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                                      <Component id="jTextField1" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                                      <Component id="customer_name" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
@@ -316,7 +316,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="customer_name">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -428,8 +428,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="amtTXT" min="-2" pref="166" max="-2" attributes="0"/>
                           <Component id="qtyTXT" min="-2" pref="166" max="-2" attributes="0"/>
-                          <Component id="jLabel16" alignment="0" min="-2" pref="166" max="-2" attributes="0"/>
-                          <Component id="jLabel17" alignment="0" min="-2" pref="166" max="-2" attributes="0"/>
+                          <Component id="Discount" alignment="0" min="-2" pref="166" max="-2" attributes="0"/>
+                          <Component id="Round_off" alignment="0" min="-2" pref="166" max="-2" attributes="0"/>
                           <Component id="netamtTXT" min="-2" pref="166" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
@@ -451,12 +451,12 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="Discount" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="Round_off" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -553,7 +553,7 @@
                 <Property name="text" type="java.lang.String" value="0.0"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel16">
+            <Component class="javax.swing.JLabel" name="Discount">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
@@ -562,7 +562,7 @@
                 <Property name="text" type="java.lang.String" value="0.0"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel17">
+            <Component class="javax.swing.JLabel" name="Round_off">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>

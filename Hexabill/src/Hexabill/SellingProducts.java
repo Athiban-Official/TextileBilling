@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -65,7 +66,7 @@ public class SellingProducts extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         Merchant_name = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        customer_name = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -78,8 +79,8 @@ public class SellingProducts extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         qtyTXT = new javax.swing.JLabel();
         amtTXT = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
+        Discount = new javax.swing.JLabel();
+        Round_off = new javax.swing.JLabel();
         netamtTXT = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         bill = new javax.swing.JTextArea();
@@ -201,7 +202,7 @@ public class SellingProducts extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(customer_name, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -228,7 +229,7 @@ public class SellingProducts extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(customer_name, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -280,13 +281,13 @@ public class SellingProducts extends javax.swing.JFrame {
         amtTXT.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         amtTXT.setText("0.0");
 
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel16.setText("0.0");
+        Discount.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        Discount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        Discount.setText("0.0");
 
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel17.setText("0.0");
+        Round_off.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        Round_off.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        Round_off.setText("0.0");
 
         netamtTXT.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         netamtTXT.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -308,8 +309,8 @@ public class SellingProducts extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(amtTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(qtyTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Discount, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Round_off, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(netamtTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15))
         );
@@ -326,11 +327,11 @@ public class SellingProducts extends javax.swing.JFrame {
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
+                    .addComponent(Discount)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
+                    .addComponent(Round_off)
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -666,9 +667,13 @@ public class SellingProducts extends javax.swing.JFrame {
     
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
         
-        
-        
-        
+        try {
+            salesReport();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SellingProducts.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SellingProducts.class.getName()).log(Level.SEVERE, null, ex);
+        }
         bill_print();
         
     }//GEN-LAST:event_btnPrintActionPerformed
@@ -858,7 +863,8 @@ public class SellingProducts extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBarcode_valActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-       /* try {
+        try {
+            /* try {
             // TODO add your handling code here:
             
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -867,30 +873,28 @@ public class SellingProducts extends javax.swing.JFrame {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost/hexabill","root","");
             for (int row = 0; row < model.getRowCount(); row++){
-                String name = (String) model.getValueAt(row, 2);
-                int quantity = (int) model.getValueAt(row, 4);
-                float price = (float) model.getValueAt(row, 5);
-                
-                 ps = con.prepareStatement("INSERT INTO test_bill(PRODUCT_NAME,PRODUCT_QTY,PRODUCT_AMT)VALUES(?,?,?)");
-                 ps.setString(1, name);
-                 ps.setInt(2, quantity);
-                 ps.setFloat(3, price);
-                 ps.executeUpdate();
-             }
-              JOptionPane.showMessageDialog(this,"Billing Table Addded");
-        } catch (ClassNotFoundException | SQLException ex) {
+            String name = (String) model.getValueAt(row, 2);
+            int quantity = (int) model.getValueAt(row, 4);
+            float price = (float) model.getValueAt(row, 5);
+            
+            ps = con.prepareStatement("INSERT INTO test_bill(PRODUCT_NAME,PRODUCT_QTY,PRODUCT_AMT)VALUES(?,?,?)");
+            ps.setString(1, name);
+            ps.setInt(2, quantity);
+            ps.setFloat(3, price);
+            ps.executeUpdate();
+            }
+            JOptionPane.showMessageDialog(this,"Billing Table Addded");
+            } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(SellingProducts.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-       
-       
-       
-      
-        JComboBox<String> comboBox = new JComboBox<>();
-        comboBox.addItem("Paid");
-        comboBox.addItem("UnPaid");
-        
-        JOptionPane.showMessageDialog(this, comboBox, "Select an option", JOptionPane.QUESTION_MESSAGE);
-       
+            }*/
+            
+            
+        salesReport();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(SellingProducts.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(SellingProducts.class.getName()).log(Level.SEVERE, null, ex);
+            }
         BtnSaveBill();
        
        model.setRowCount(0);
@@ -945,7 +949,9 @@ public class SellingProducts extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Discount;
     private javax.swing.JLabel Merchant_name;
+    private javax.swing.JLabel Round_off;
     private javax.swing.JLabel amtTXT;
     private javax.swing.JTextArea bill;
     private javax.swing.JButton btnAdd;
@@ -954,13 +960,12 @@ public class SellingProducts extends javax.swing.JFrame {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnSave;
+    private javax.swing.JTextField customer_name;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -976,7 +981,6 @@ public class SellingProducts extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel netamtTXT;
     private javax.swing.JLabel qtyTXT;
     private javax.swing.JTextField txtBarcode_val;
@@ -1038,13 +1042,6 @@ public class SellingProducts extends javax.swing.JFrame {
         try {
         // Generate a unique bill number
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        
-       /* JComboBox<String> comboBox = new JComboBox<>();
-        comboBox.addItem("Paid");
-        comboBox.addItem("UnPaid");
-        
-        JOptionPane.showMessageDialog(this, comboBox, "Select an option", JOptionPane.QUESTION_MESSAGE);
-        */
         String billNumber = generateUniqueBillNumber();
         PreparedStatement billNumberStatement = con.prepareStatement("INSERT INTO bill_number (bill_number) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
         billNumberStatement.setString(1, billNumber);
@@ -1123,10 +1120,10 @@ private void SelectProducts(){
             }
             }
 }
-
+   /*
         private void InvoiceTable(){
             
-         /*   try {
+         try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 con = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling", "root", "");
                 for (int row = 0; row < model.getRowCount(); row++) {
@@ -1145,9 +1142,38 @@ private void SelectProducts(){
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(AddProducts.class.getName()).log(Level.SEVERE, null, ex);
         }
-           */
+           
 
+        }*/
+
+        private void salesReport() throws ClassNotFoundException, SQLException{
+            
+            String billNumber = generateUniqueBillNumber();
+            String Customer_name = customer_name.getText();
+            String qty_txt = qtyTXT.getText();
+            float amt_TXT = Float.parseFloat(amtTXT.getText());
+            float discount = Float.parseFloat(Discount.getText());
+            int round_off = Integer.parseInt(Round_off.getText());
+            float netamt_TXT = Float.parseFloat(netamtTXT.getText());
+            
+            String sql = "INSERT INTO sales_report (bill_number, bill_date, customer_name, Qty, amount, discount, round_off, net_amt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+
+            // Set values for other fields
+            pstmt.setString(1, billNumber);
+            
+            // Set the current date for the bill_date field
+            pstmt.setDate(2, java.sql.Date.valueOf(LocalDate.now()));
+            
+            pstmt.setString(3, Customer_name);
+            pstmt.setString(4, qty_txt);
+            pstmt.setFloat(5, amt_TXT);
+            pstmt.setFloat(6, discount);
+            pstmt.setInt(7, round_off);
+            pstmt.setFloat(8, netamt_TXT);
+
+            pstmt.executeUpdate();
+            System.out.println("Record inserted successfully!");
+      
         }
-
-    //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
 }
