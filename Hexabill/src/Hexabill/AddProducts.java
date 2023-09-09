@@ -16,6 +16,8 @@ import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Fatmicky
+ * 
+ * Developed By Mr PoPs 
  */
 public class AddProducts extends javax.swing.JFrame {
 
