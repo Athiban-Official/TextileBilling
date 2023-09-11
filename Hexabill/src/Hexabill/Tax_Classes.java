@@ -93,6 +93,11 @@ public class Tax_Classes extends javax.swing.JFrame {
         });
 
         saveBtn.setText("Save");
+        saveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveBtnActionPerformed(evt);
+            }
+        });
 
         addBtn.setText("Add New");
         addBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -463,6 +468,13 @@ public class Tax_Classes extends javax.swing.JFrame {
         search_TID();
         
     }//GEN-LAST:event_tbl_searchKeyReleased
+
+    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
+        // TODO add your handling code here:
+        
+        addButton();
+        
+    }//GEN-LAST:event_saveBtnActionPerformed
 
     
     private void search_TID(){
