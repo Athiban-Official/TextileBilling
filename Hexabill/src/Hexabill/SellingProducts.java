@@ -4,10 +4,13 @@
  */
 package Hexabill;
 
+import java.awt.Font;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.awt.print.PrinterException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,6 +20,13 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -900,7 +910,7 @@ public class SellingProducts extends javax.swing.JFrame {
        model.setRowCount(0);
     }//GEN-LAST:event_btnSaveActionPerformed
 
-     public void bill_print(){
+public void bill_print(){
  
         try {
             bill.setText("                        HexaBill Software solutions \n");
@@ -922,7 +932,7 @@ public class SellingProducts extends javax.swing.JFrame {
                 
             }
             bill.setText(bill.getText() + "----------------------------------------------------------------\n");
-            bill.setText(bill.getText() + "SubTotal :\t"+txtTOT.getText()+"\n");
+            bill.setText(bill.getText() + "SubTotal :\t"+txtTOT.getText().substring(0, txtTOT.getText().indexOf("Rs"))+"\n");
             bill.setText(bill.getText() + "====================================\n");
             bill.setText(bill.getText() +"                     Thanks For Your Business...!"+"\n");
             bill.setText(bill.getText() + "----------------------------------------------------------------\n");
@@ -937,6 +947,8 @@ public class SellingProducts extends javax.swing.JFrame {
         }
  
  }
+
+
 
     public static void main(String args[]) {
          

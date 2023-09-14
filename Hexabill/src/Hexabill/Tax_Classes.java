@@ -375,15 +375,16 @@ public class Tax_Classes extends javax.swing.JFrame {
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Please enter valid numerical values for Tax ID and Rate Percent.");
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace(); // Print the stack trace for debugging
+        } catch (ClassNotFoundException | SQLException ex) { // Print the stack trace for debugging
+            // Print the stack trace for debugging
             JOptionPane.showMessageDialog(this, "An error occurred while updating the tax class.");
         } finally {
             try {
                 if (con1 != null) con1.close();
                 if (insert != null) insert.close();
             } catch (SQLException e) {
-                e.printStackTrace(); // Print the stack trace for debugging
+                // Print the stack trace for debugging
+                
             }
         }
         
@@ -409,7 +410,7 @@ public class Tax_Classes extends javax.swing.JFrame {
             
             
             
-            insert = con1.prepareStatement(" DELETE FROM add_products WHERE id=? ");
+            insert = con1.prepareStatement(" DELETE FROM tax_classes WHERE TAX_ID=? ");
             insert.setInt(1, id);
            
             insert.executeUpdate();
@@ -435,7 +436,7 @@ public class Tax_Classes extends javax.swing.JFrame {
     private void tbl_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl_searchKeyReleased
         // TODO add your handling code here:
         
-                String name = tbl_search.getText();
+        String name = tbl_search.getText();
         try {
 
             DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();

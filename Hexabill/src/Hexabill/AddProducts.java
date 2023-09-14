@@ -208,7 +208,7 @@ public class AddProducts extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Item ID", "Item Name", "Item Price", "Item Qty", "Barcode Value"
+                "ID", "Item ID", "Item Name", "Item Price", "Item Qty", "Barcode Value", "Unit", "Category", "Print Name", "Tax Classes", "Merchant Name"
             }
         ));
         jTable1.setRowHeight(32);

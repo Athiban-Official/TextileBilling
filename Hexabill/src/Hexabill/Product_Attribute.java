@@ -4,6 +4,18 @@
  */
 package Hexabill;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Fatmicky
@@ -15,7 +27,11 @@ public class Product_Attribute extends javax.swing.JFrame {
      */
     public Product_Attribute() {
         initComponents();
+        tableDisplay();
     }
+    
+    Connection con1;
+    PreparedStatement insert;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,13 +44,13 @@ public class Product_Attribute extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        tax_id = new javax.swing.JTextField();
+        attribute_id = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        tax_name = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        attribute_name = new javax.swing.JTextField();
+        addBtn = new javax.swing.JButton();
+        editBtn = new javax.swing.JButton();
+        saveBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
         tbl_search = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -54,13 +70,39 @@ public class Product_Attribute extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Attribute Name");
 
-        jButton3.setText("Add New");
+        addBtn.setText("Add New");
+        addBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBtnActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Edit");
+        editBtn.setText("Edit");
+        editBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBtnActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Save");
+        saveBtn.setText("Save");
+        saveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveBtnActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Delete");
+        deleteBtn.setText("Delete");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
+
+        tbl_search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tbl_searchKeyReleased(evt);
+            }
+        });
 
         jTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTable1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -72,6 +114,11 @@ public class Product_Attribute extends javax.swing.JFrame {
                 "ATTRIBUTE ID", "ATTRIBUTE NAME"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         date_lable.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -94,18 +141,18 @@ public class Product_Attribute extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tax_id)
-                    .addComponent(tax_name, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(attribute_id)
+                    .addComponent(attribute_name, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(53, 53, 53)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(editBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(tbl_search, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(121, 121, 121))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -132,20 +179,20 @@ public class Product_Attribute extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tax_id, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(attribute_id, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tax_name, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(attribute_name, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(editBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(tbl_search, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -160,6 +207,261 @@ public class Product_Attribute extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tableDisplay(){
+        
+        
+        int c;
+         
+          try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+    
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root",""); 
+            
+            insert = con1.prepareStatement("SELECT * FROM product_attributs");
+            
+            ResultSet rs = insert.executeQuery();
+            ResultSetMetaData rsm = rs.getMetaData();
+            
+            c = rsm.getColumnCount();
+            DefaultTableModel DFT = (DefaultTableModel)jTable1.getModel();
+           
+            DFT.setRowCount(0);
+            while(rs.next()){
+                Vector v2 = new Vector();
+                
+                for(int a=1;a<=c;a++){
+                    v2.add(rs.getInt("attribute_id"));
+                    v2.add(rs.getString("attribute_name"));
+              
+                }
+                
+                DFT.addRow(v2);
+            }
+            
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AddProducts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
+    
+    
+    private void addButton(){
+        
+        int a_ID = Integer.parseInt(attribute_id.getText());
+        String a_Name = attribute_name.getText();
+             
+        
+        if(attribute_id.getText().equals("")&&attribute_name.getText().equals("")){
+            JOptionPane.showMessageDialog(this,"Please fill the All fields ....");
+        } else{
+        
+            try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+    
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root",""); 
+            
+            insert = con1.prepareStatement("INSERT INTO product_attributs (attribute_id, attribute_name) VALUES (?, ?)");
+            insert.setInt(1, a_ID);
+            insert.setString(2, a_Name);
+            insert.executeUpdate();
+            
+            
+            attribute_id.setText("");
+            attribute_name.setText("");
+            //rate_of_percent.setText("");
+            tableDisplay();
+            
+            JOptionPane.showMessageDialog(this,"Prouduct Added Successfuly");
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AddProducts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+            
+        }
+        
+    }
+    
+     private void editButton(){
+         
+        DefaultTableModel DFT = (DefaultTableModel) jTable1.getModel();
+        int selectedIndex = jTable1.getSelectedRow();   
+
+    /*    if (selectedIndex == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row to edit.");
+            return;
+        }*/
+
+        try {
+            int att_ID = Integer.parseInt(attribute_id.getText());
+            String att_name = attribute_name.getText();
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root",""); 
+
+            // Using a PreparedStatement
+           // String sql = "UPDATE product_attributs SET attribute_id=?, attribute_name=? WHERE attribute_id=?";
+            insert = con1.prepareStatement("UPDATE product_attributs SET attribute_id=?,attribute_name=? WHERE attribute_id=? ");
+            insert.setInt(1, att_ID);
+            insert.setString(2, att_name);
+           
+            insert.executeUpdate();
+            tableDisplay();
+            JOptionPane.showMessageDialog(this, "Prouduct Updated Successfuly..");
+
+        }catch (ClassNotFoundException | SQLException ex) { 
+           
+           // JOptionPane.showMessageDialog(this, "An error occurred while updating the Product Attribute.");
+        }
+    }
+             
+      private void saveButton(){
+          
+        int a_ID = Integer.parseInt(attribute_id.getText());
+        String a_Name = attribute_name.getText();
+             
+        
+        if(attribute_id.getText().equals("")&&attribute_name.getText().equals("")){
+            JOptionPane.showMessageDialog(this,"Please fill the All fields ....");
+        } else{
+        
+            try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+    
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root",""); 
+            
+            insert = con1.prepareStatement("INSERT INTO product_attributs (attribute_id, attribute_name) VALUES (?, ?)");
+            insert.setInt(1, a_ID);
+            insert.setString(2, a_Name);
+            insert.executeUpdate();
+            
+            
+            attribute_id.setText("");
+            attribute_name.setText("");
+            //rate_of_percent.setText("");
+            tableDisplay();
+            
+            JOptionPane.showMessageDialog(this,"Prouduct Added Successfuly");
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AddProducts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+            
+        }
+        
+    }
+      
+      private void deleteButton(){
+          
+        DefaultTableModel DFT = (DefaultTableModel)jTable1.getModel();
+        int selectedIndex = jTable1.getSelectedRow();   
+        
+        try {
+             
+            int id = Integer.parseInt(DFT.getValueAt(selectedIndex,0).toString());
+            
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want Delete the Record !!","Warning",JOptionPane.YES_NO_OPTION);
+            if(dialogResult == JOptionPane.YES_OPTION){
+                
+                
+            Class.forName("com.mysql.cj.jdbc.Driver");
+    
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root",""); 
+            insert = con1.prepareStatement(" DELETE FROM product_attributs WHERE attribute_id=? ");
+            insert.setInt(1, id);
+           
+            insert.executeUpdate();
+            
+            JOptionPane.showMessageDialog(this,"Recored Deleted..");
+             tableDisplay();
+            
+            
+            attribute_id.setText("");
+            attribute_name.setText("");
+               
+            }
+            
+            //tableDisplay();
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AddProducts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+     
+    
+    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
+        // TODO add your handling code here:
+        
+        addButton();
+        
+    }//GEN-LAST:event_addBtnActionPerformed
+
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
+        // TODO add your handling code here:
+        
+        editButton();
+    }//GEN-LAST:event_editBtnActionPerformed
+
+    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
+        // TODO add your handling code here:
+        saveButton();
+    }//GEN-LAST:event_saveBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        // TODO add your handling code here:
+        
+        deleteButton();
+        
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        
+        DefaultTableModel DFT = (DefaultTableModel)jTable1.getModel();
+         int selectedIndex = jTable1.getSelectedRow();
+         
+          attribute_id.setText(DFT.getValueAt(selectedIndex,0).toString());
+          attribute_name.setText(DFT.getValueAt(selectedIndex,1).toString());
+        
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void tbl_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl_searchKeyReleased
+        // TODO add your handling code here:
+        
+        String name = tbl_search.getText();
+        try {
+
+            DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
+            dt.setRowCount(0);
+          //  Statement s = db.mycon().createStatement();
+            
+            Class.forName("com.mysql.cj.jdbc.Driver");
+    
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root",""); 
+            
+             insert = con1.prepareStatement("SELECT * FROM product_attributs WHERE attribute_name LIKE '%"+name+"%' ");
+             ResultSet rs = insert.executeQuery();
+           // ResultSet rs = executeQuery("SELECT * FROM product WHERE Product_Name LIKE '%"+name+"%' ");
+
+            while (rs.next()) {
+                Vector v = new Vector();
+
+                v.add(rs.getString(1));
+                v.add(rs.getString(2));
+                dt.addRow(v);
+
+            }
+
+        } catch (Exception e) {
+            tableDisplay();
+
+        }
+        
+    }//GEN-LAST:event_tbl_searchKeyReleased
 
     /**
      * @param args the command line arguments
@@ -197,11 +499,12 @@ public class Product_Attribute extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addBtn;
+    private javax.swing.JTextField attribute_id;
+    private javax.swing.JTextField attribute_name;
     private javax.swing.JLabel date_lable;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton deleteBtn;
+    private javax.swing.JButton editBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -209,8 +512,7 @@ public class Product_Attribute extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField tax_id;
-    private javax.swing.JTextField tax_name;
+    private javax.swing.JButton saveBtn;
     private javax.swing.JTextField tbl_search;
     // End of variables declaration//GEN-END:variables
 }
