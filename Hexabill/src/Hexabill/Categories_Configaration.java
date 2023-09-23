@@ -4,6 +4,18 @@
  */
 package Hexabill;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Fatmicky
@@ -11,11 +23,16 @@ package Hexabill;
 public class Categories_Configaration extends javax.swing.JFrame {
 
     /**
-     * Creates new form Categories_Configaration
+     * Creates new form Categories_configuration
      */
     public Categories_Configaration() {
         initComponents();
+        tableDisplay();
     }
+    
+    
+    Connection con1;
+    PreparedStatement insert;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,15 +45,15 @@ public class Categories_Configaration extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        tax_id = new javax.swing.JTextField();
+        category_id = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        tax_name = new javax.swing.JTextField();
+        category_name = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        rate_percent = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        category_remarks = new javax.swing.JTextField();
+        edit_Btn = new javax.swing.JButton();
+        add_Btn = new javax.swing.JButton();
+        save_Btn = new javax.swing.JButton();
+        delete_Btn = new javax.swing.JButton();
         tbl_search = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -59,13 +76,39 @@ public class Categories_Configaration extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Remarks");
 
-        jButton4.setText("Edit");
+        edit_Btn.setText("Edit");
+        edit_Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edit_BtnActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Add New");
+        add_Btn.setText("Add New");
+        add_Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_BtnActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Save");
+        save_Btn.setText("Save");
+        save_Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                save_BtnActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Delete");
+        delete_Btn.setText("Delete");
+        delete_Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delete_BtnActionPerformed(evt);
+            }
+        });
+
+        tbl_search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tbl_searchKeyReleased(evt);
+            }
+        });
 
         jTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTable1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -77,6 +120,11 @@ public class Categories_Configaration extends javax.swing.JFrame {
                 "CATEGORY ID", "CATEGORY NAME", "REMARKS"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         date_lable.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -100,19 +148,19 @@ public class Categories_Configaration extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tax_id)
-                    .addComponent(tax_name)
-                    .addComponent(rate_percent, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(category_id)
+                    .addComponent(category_name)
+                    .addComponent(category_remarks, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 267, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(save_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(add_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(53, 53, 53)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(delete_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(edit_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(tbl_search, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(176, 176, 176))
             .addComponent(jScrollPane1)
@@ -139,24 +187,24 @@ public class Categories_Configaration extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tax_id, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(category_id, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tax_name, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(category_name, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(rate_percent, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(category_remarks, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(edit_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(add_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(save_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(delete_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(tbl_search, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
@@ -171,6 +219,217 @@ public class Categories_Configaration extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    
+     private void tableDisplay(){
+        
+         int c;
+         
+          try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+    
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root",""); 
+            
+            insert = con1.prepareStatement("SELECT * FROM categories_configuration");
+            
+            ResultSet rs = insert.executeQuery();
+            ResultSetMetaData rsm = rs.getMetaData();
+            
+            c = rsm.getColumnCount();
+            DefaultTableModel DFT = (DefaultTableModel)jTable1.getModel();
+           
+            DFT.setRowCount(0);
+            while(rs.next()){
+                Vector v2 = new Vector();
+                
+                for(int a=1;a<=c;a++){
+                    v2.add(rs.getInt("category_ID"));
+                    v2.add(rs.getString("category_NAME"));
+                    v2.add(rs.getFloat("remarks"));
+              
+                }
+                
+                DFT.addRow(v2);
+            }
+            
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AddProducts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    private void addBtn(){
+   
+        int c_ID = Integer.parseInt(category_id.getText());
+        String c_Name = category_name.getText();
+        String c_Remarks = category_remarks.getText();
+        
+        
+        if(category_id.getText().equals("")&&category_name.getText().equals("")&&category_remarks.getText().equals("")){
+            JOptionPane.showMessageDialog(this,"Please fill the All fields ....");
+        } else{
+        
+            try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+    
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root",""); 
+            
+            insert = con1.prepareStatement("INSERT INTO categories_configuration (category_ID, category_NAME, remarks) VALUES (?, ?, ?)");
+            insert.setInt(1, c_ID);
+            insert.setString(2, c_Name);
+            insert.setString(3,c_Remarks);
+            insert.executeUpdate();
+            
+            
+            category_id.setText("");
+            category_name.setText("");
+            category_remarks.setText("");
+            tableDisplay();
+            
+            JOptionPane.showMessageDialog(this,"Category Added Successfuly");
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AddProducts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+            
+        }
+    }
+        
+    private void editBtn(){
+        
+        DefaultTableModel DFT = (DefaultTableModel) jTable1.getModel();
+        int selectedIndex = jTable1.getSelectedRow();   
+
+        if (selectedIndex == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row to edit.");
+            return;
+        }
+
+        try {
+            int c_ID = Integer.parseInt(category_id.getText());
+            String c_Name = category_name.getText();
+            String c_Remarks = category_remarks.getText();
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root",""); 
+
+            // Using a PreparedStatement
+            String sql = "UPDATE categories_configuration SET category_ID=?, category_NAME=?, remarks=? WHERE category_ID=?";
+            insert = con1.prepareStatement(sql);
+            insert.setInt(1, c_ID);
+            insert.setString(2, c_Name);
+            insert.setString(3, c_Remarks);
+
+            int rowsAffected = insert.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Tax Class Updated Successfully");
+                category_id.setText("");
+                category_name.setText("");
+                category_remarks.setText("");
+                tableDisplay();
+            } else {
+                JOptionPane.showMessageDialog(this, "No record updated. Please check the tax ID.");
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numerical values for Tax ID and Rate Percent.");
+        } catch (ClassNotFoundException | SQLException ex) { // Print the stack trace for debugging
+            // Print the stack trace for debugging
+            JOptionPane.showMessageDialog(this, "An error occurred while updating the tax class.");
+        } finally {
+            try {
+                if (con1 != null) con1.close();
+                if (insert != null) insert.close();
+            } catch (SQLException e) {
+                // Print the stack trace for debugging
+                
+            }
+        }
+        
+    }
+    private void deleteBtn(){
+        
+        DefaultTableModel DFT = (DefaultTableModel)jTable1.getModel();
+        int selectedIndex = jTable1.getSelectedRow();   
+        
+        try {
+             
+            int id = Integer.parseInt(DFT.getValueAt(selectedIndex,0).toString());
+            
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want Delete the Record !!","Warning",JOptionPane.YES_NO_OPTION);
+            if(dialogResult == JOptionPane.YES_OPTION){
+                
+                
+            Class.forName("com.mysql.cj.jdbc.Driver");
+    
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root",""); 
+            
+            
+            
+            insert = con1.prepareStatement(" DELETE FROM categories_configuration WHERE category_ID=? ");
+            insert.setInt(1, id);
+           
+            insert.executeUpdate();
+            
+            JOptionPane.showMessageDialog(this,"Recored Deleted..");
+             tableDisplay();
+            
+            
+            category_id.setText("");
+            category_name.setText("");
+            category_remarks.setText("");
+                
+            }
+            
+            //tableDisplay();
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AddProducts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    private void saveBtn(){
+        
+    }
+    
+    private void add_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_BtnActionPerformed
+        // TODO add your handling code here:
+        addBtn();
+    }//GEN-LAST:event_add_BtnActionPerformed
+
+    private void edit_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_BtnActionPerformed
+        // TODO add your handling code here:
+        editBtn();
+    }//GEN-LAST:event_edit_BtnActionPerformed
+
+    private void save_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save_BtnActionPerformed
+        // TODO add your handling code here:
+        deleteBtn();
+    }//GEN-LAST:event_save_BtnActionPerformed
+
+    private void delete_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_BtnActionPerformed
+        // TODO add your handling code here:
+        saveBtn();
+    }//GEN-LAST:event_delete_BtnActionPerformed
+
+    private void tbl_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl_searchKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbl_searchKeyReleased
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        
+         DefaultTableModel DFT = (DefaultTableModel)jTable1.getModel();
+         int selectedIndex = jTable1.getSelectedRow();
+         
+          category_id.setText(DFT.getValueAt(selectedIndex,0).toString());
+          category_name.setText(DFT.getValueAt(selectedIndex,1).toString());
+          category_remarks.setText(DFT.getValueAt(selectedIndex,2).toString());
+        
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -208,11 +467,13 @@ public class Categories_Configaration extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton add_Btn;
+    private javax.swing.JTextField category_id;
+    private javax.swing.JTextField category_name;
+    private javax.swing.JTextField category_remarks;
     private javax.swing.JLabel date_lable;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton delete_Btn;
+    private javax.swing.JButton edit_Btn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -221,9 +482,7 @@ public class Categories_Configaration extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField rate_percent;
-    private javax.swing.JTextField tax_id;
-    private javax.swing.JTextField tax_name;
+    private javax.swing.JButton save_Btn;
     private javax.swing.JTextField tbl_search;
     // End of variables declaration//GEN-END:variables
 }

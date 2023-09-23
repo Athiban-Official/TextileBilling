@@ -27,6 +27,8 @@ public class AddProducts extends javax.swing.JFrame {
         initComponents();
         tableDisplay();
         taxListDisplay();
+        fetchUnit();
+        fetchCategory();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //JFileChooser fileChooser = new JFileChooser();
 
@@ -37,13 +39,57 @@ public class AddProducts extends javax.swing.JFrame {
     
      Connection con1;
      PreparedStatement insert;
+     private static final String classname = "com.mysql.cj.jdbc.Driver";
+     private static final String url = "\"jdbc:mysql://localhost/hexabilling";
+     private static final String user = "root";
+     private static final String pass = "";
      
+     private void fetchUnit(){
+         
+         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling", "root", "");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM product_attributs");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String itemName = rs.getString("attribute_name");
+                unit.addItem(itemName);
+            }
+
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AddProducts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+     }
+      private void fetchCategory(){
+          
+          try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling", "root", "");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM categories_configuration");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String itemName = rs.getString("category_NAME");
+                category.addItem(itemName);
+            }
+
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AddProducts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+     }
      
      private void taxListDisplay(){
          
          DefaultListModel Lmodel = new DefaultListModel();
         try {   
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(classname);
             con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root","");
             insert = con1.prepareStatement("SELECT * FROM tax_classes");
             ResultSet rs = insert.executeQuery();
@@ -86,6 +132,10 @@ public class AddProducts extends javax.swing.JFrame {
                     v2.add(rs.getString("Price"));
                     v2.add(rs.getString("Qty"));
                     v2.add(rs.getString("barcode_Value"));
+                    v2.add(rs.getString("Unit"));
+                    v2.add(rs.getString("category"));
+                    v2.add(rs.getString("print_name"));
+                    v2.add(rs.getString("merchant_name"));
                 }
                 
                 DFT.addRow(v2);
@@ -123,14 +173,14 @@ public class AddProducts extends javax.swing.JFrame {
         c_search_tbl = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        unit = new javax.swing.JComboBox<>();
+        category = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        pID1 = new javax.swing.JTextField();
+        printName = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        pID2 = new javax.swing.JTextField();
+        Mname = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tax_list = new javax.swing.JList<>();
 
@@ -208,7 +258,7 @@ public class AddProducts extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Item ID", "Item Name", "Item Price", "Item Qty", "Barcode Value", "Unit", "Category", "Print Name", "Tax Classes", "Merchant Name"
+                "ID", "Item ID", "Item Name", "Item Price", "Item Qty", "Barcode Value", "Unit", "Category", "Print Name", "Merchant Name"
             }
         ));
         jTable1.setRowHeight(32);
@@ -247,16 +297,16 @@ public class AddProducts extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel6.setText("Unit");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        unit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        category.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None" }));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Category");
 
-        pID1.addActionListener(new java.awt.event.ActionListener() {
+        printName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pID1ActionPerformed(evt);
+                printNameActionPerformed(evt);
             }
         });
 
@@ -269,9 +319,9 @@ public class AddProducts extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel10.setText("Merchant Name");
 
-        pID2.addActionListener(new java.awt.event.ActionListener() {
+        Mname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pID2ActionPerformed(evt);
+                MnameActionPerformed(evt);
             }
         });
 
@@ -313,9 +363,9 @@ public class AddProducts extends javax.swing.JFrame {
                     .addComponent(jLabel15))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pID1)
-                    .addComponent(jComboBox1, 0, 203, Short.MAX_VALUE)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(printName)
+                    .addComponent(unit, 0, 203, Short.MAX_VALUE)
+                    .addComponent(category, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,7 +391,7 @@ public class AddProducts extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pID2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Mname, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(21, 21, 21))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
@@ -356,12 +406,12 @@ public class AddProducts extends javax.swing.JFrame {
                             .addComponent(pID, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel6)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(unit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(15, 15, 15))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(pID2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Mname, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10))
                         .addGap(18, 18, 18)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -391,14 +441,14 @@ public class AddProducts extends javax.swing.JFrame {
                             .addComponent(pName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel7)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(pPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel9)
-                                .addComponent(pID1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(printName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -455,9 +505,13 @@ public class AddProducts extends javax.swing.JFrame {
         String pprice = pPrice.getText();
         String pqty = pQty.getText();
         String pbarcode = pBarcode.getText();
+        String punit = (String) unit.getSelectedItem();
+        String pcategory = (String) category.getSelectedItem();
+        String pprintname = printName.getText();
+        String pMname = Mname.getText();
         
         if(pID.getText().equals("")&&pName.getText().equals("")&&pPrice.getText().equals("")&&
-                pQty.getText().equals("")&&pBarcode.getText().equals("")){
+                pQty.getText().equals("")&&pBarcode.getText().equals("")&&printName.getText().equals("")&&Mname.getText().equals("")){
             JOptionPane.showMessageDialog(this,"Please fill the All fields ....");
         } else{
         
@@ -466,12 +520,17 @@ public class AddProducts extends javax.swing.JFrame {
     
             con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root",""); 
             
-            insert = con1.prepareStatement("INSERT INTO add_products (product_ID, product_Name, Price, Qty, barcode_Value) VALUES (?, ?, ?, ?, ?)");
+            insert = con1.prepareStatement("INSERT INTO add_products (product_ID, product_Name, Price, Qty, barcode_Value, Unit, category, print_name,merchant_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             insert.setString(1, pid);
             insert.setString(2, pname);
             insert.setString(3, pprice);
             insert.setString(4, pqty);
             insert.setString(5, pbarcode);
+            insert.setString(6, punit);
+            insert.setString(7, pcategory);
+            insert.setString(8, pprintname);
+            insert.setString(9, pMname);
+            
             insert.executeUpdate();
             
             
@@ -481,7 +540,8 @@ public class AddProducts extends javax.swing.JFrame {
             pQty.setText("");
             pBarcode.setText("");
             pID.requestFocus();
-            
+            unit.setSelectedIndex(0);
+            category.setSelectedIndex(0);
             
             tableDisplay();
             
@@ -557,6 +617,10 @@ public class AddProducts extends javax.swing.JFrame {
             String pprice = pPrice.getText();
             String pqty = pQty.getText();
             String pbarcode = pBarcode.getText();
+            String punit = (String) unit.getSelectedItem();
+            String pcategory = (String) category.getSelectedItem();
+            String pprintname = printName.getText();
+            String pMname = Mname.getText();
             
              
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -565,13 +629,17 @@ public class AddProducts extends javax.swing.JFrame {
             
             //(product_ID ,product_Name,Price ,Qty ,barcode_Value )
             
-            insert = con1.prepareStatement(" UPDATE add_products SET product_ID=?,product_Name=?,Price=?,Qty=?,barcode_Value=? WHERE id=? ");
+            insert = con1.prepareStatement(" UPDATE add_products SET product_ID=?,product_Name=?,Price=?,Qty=?,barcode_Value=?,Unit =?,category=?,print_name=?,merchant_name=? WHERE id=? ");
             insert.setString(1, pid);
             insert.setString(2, pname);
             insert.setString(3, pprice);
             insert.setString(4, pqty);
             insert.setString(5, pbarcode);
-            insert.setInt(6, id);
+            insert.setString(6, punit);
+            insert.setString(7, pcategory);
+            insert.setString(8, pprintname);
+            insert.setString(9, pMname);
+            insert.setInt(10, id);
            
             insert.executeUpdate();
             
@@ -669,13 +737,13 @@ public class AddProducts extends javax.swing.JFrame {
 
     }//GEN-LAST:event_c_search_tblKeyReleased
 
-    private void pID1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pID1ActionPerformed
+    private void printNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_pID1ActionPerformed
+    }//GEN-LAST:event_printNameActionPerformed
 
-    private void pID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pID2ActionPerformed
+    private void MnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_pID2ActionPerformed
+    }//GEN-LAST:event_MnameActionPerformed
                         
     /**
      * @param args the command line arguments
@@ -717,12 +785,12 @@ public class AddProducts extends javax.swing.JFrame {
     private javax.swing.JButton Addbtn;
     private javax.swing.JButton Deletebtn;
     private javax.swing.JButton Editbtn;
+    private javax.swing.JTextField Mname;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton bulk_import;
     private javax.swing.JTextField c_search_tbl;
+    private javax.swing.JComboBox<String> category;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel15;
@@ -740,12 +808,12 @@ public class AddProducts extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField pBarcode;
     private javax.swing.JTextField pID;
-    private javax.swing.JTextField pID1;
-    private javax.swing.JTextField pID2;
     private javax.swing.JTextField pName;
     private javax.swing.JTextField pPrice;
     private javax.swing.JTextField pQty;
+    private javax.swing.JTextField printName;
     private javax.swing.JList<String> tax_list;
+    private javax.swing.JComboBox<String> unit;
     // End of variables declaration//GEN-END:variables
 
 }
