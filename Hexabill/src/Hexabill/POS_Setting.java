@@ -49,6 +49,7 @@ public class POS_Setting extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         jLabel1.setText("POS Merchant Name");
 
+        comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE" }));
         comboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxActionPerformed(evt);
@@ -63,8 +64,18 @@ public class POS_Setting extends javax.swing.JFrame {
         });
 
         jButton2.setText("Reset");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Close");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,121 +120,58 @@ public class POS_Setting extends javax.swing.JFrame {
     }//GEN-LAST:event_comboBoxActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-          /*  try {                                         
-                // TODO add your handling code here:
-                String mname = comboBox.getSelectedItem().toString();
-
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root","");
-
-                // Set autocommit to false
-                con1.setAutoCommit(false);
-
-                // Create the PreparedStatement for the update query
-                insert = con1.prepareStatement("UPDATE pos_metchant_name SET Merchant_Name=? WHERE Merchant_Name=? ");
-                String Merchant_Name = null;
-                insert.setString(1, Merchant_Name);  // Set the new merchant name here
-                insert.setString(2, mname);  // Set the old merchant name here
-                insert.executeUpdate();
-                // Commit the transaction
-                con1.commit();
-
-                // Set autocommit back to true
-                con1.setAutoCommit(true);
-                System.out.println(insert);
-
-                JOptionPane.showMessageDialog(this, "Product Updated Successfully");
-            } catch (ClassNotFoundException | SQLException ex) {
-                try {
-                    con1.rollback();
-                } catch (SQLException rollbackEx) {
-                    // Handle rollback exception if needed
-                    rollbackEx.printStackTrace();
-                }
-                Logger.getLogger(POS_Setting.class.getName()).log(Level.SEVERE, null, ex);
-            } */
-          
+       
           PosSvaeBtn();
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0); 
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+        comboBox.setSelectedIndex(0);
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     private void PosSvaeBtn(){
         
-             String selectedValue = (String) comboBox.getSelectedItem();
-             if (selectedValue != null) {
-                    // Check if the value already exists in the selected_values table
-                    if (isValueExists(selectedValue)) {
-                        // If it exists, update the existing row
-                        updateValue(selectedValue);
-                        JOptionPane.showMessageDialog(null, "Value updated successfully.");
-                    } else {
-                        // If it doesn't exist, insert the value into the table
-                        insertValue(selectedValue);
-                        JOptionPane.showMessageDialog(null, "Value inserted successfully.");
-                    }
-                    
-                 //   SellingProducts sellingProducts = new SellingProducts();
-                   // sellingProducts.setMerchantName(selectedValue);
-                    
-                }
-    }
-    
-    private boolean isValueExists(String value) {
-        // Check if the value exists in the selected_values table
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling", "root", "");
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM pos_merchant_name WHERE Merchant_Name = ?");
-            statement.setString(1, value);
-            ResultSet resultSet = statement.executeQuery();
-            boolean exists = resultSet.next();
-            connection.close();
-            return exists;
-        } catch (SQLException e) {
+        try{
+            
+            String mname = comboBox.getSelectedItem().toString();
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root","") ;
+            String query = "INSERT INTO pos_metchant_name (id, Merchant_Name) VALUES (?, ?) ON DUPLICATE KEY UPDATE Merchant_Name = VALUES(Merchant_Name)";
+            PreparedStatement statement = con1.prepareStatement(query);
+            statement.setInt(1, 1);
+            statement.setString(2, mname);
+            
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this,"Merchant Added Successfuly");
+                
+                AddProducts addProducts = new AddProducts();
+                addProducts.setVisible(true);
+                dispose();
+                
+            } else {
+                JOptionPane.showMessageDialog(this,"No Changes ");
+            }
+
+            // Close the statement and connection
+            statement.close();
+            con1.close();
+            
+        }catch (SQLException e) {
             e.printStackTrace();
-            return false;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(POS_Setting.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-        private void updateValue(String value) {
-        // Update the existing row with the selected value in the selected_values table
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling", "root", "");
-            PreparedStatement statement = connection.prepareStatement("UPDATE pos_merchant_name SET Merchant_Name = ? WHERE Merchant_Name = ?");
-            statement.setString(1, value);
-            statement.setString(2, value);
-            statement.executeUpdate();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-private void insertValue(String value) {
-    int uniqueId = generateUniqueId();
-
-    try {
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling", "root", "");
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO pos_merchant_name (id, Merchant_Name) VALUES (?, ?)");
-        statement.setInt(1, uniqueId);
-        statement.setString(2, value);
-        statement.executeUpdate();
-        connection.close();
-    } catch (SQLIntegrityConstraintViolationException e) {
-        // Handle the duplicate key error here, e.g., generate a new uniqueId and retry the insertion
-        uniqueId = generateUniqueId();
-        insertValue(value); // Retry the insertion with the new uniqueId
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-}
-
-private int generateUniqueId() {
-    // Generate a unique 'id' value (e.g., using a timestamp)
-    return (int) System.currentTimeMillis();
-}
-
-
-    
     
     /**
      * @param args the command line arguments

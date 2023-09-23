@@ -29,9 +29,12 @@ public class AddProducts extends javax.swing.JFrame {
         taxListDisplay();
         fetchUnit();
         fetchCategory();
+        fetchMerchatName();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //JFileChooser fileChooser = new JFileChooser();
-
+        
+        POS_Setting pos_Setting = new POS_Setting();
+        pos_Setting.setVisible(false);  
     }
 
     @SuppressWarnings("unchecked")
@@ -43,6 +46,27 @@ public class AddProducts extends javax.swing.JFrame {
      private static final String url = "\"jdbc:mysql://localhost/hexabilling";
      private static final String user = "root";
      private static final String pass = "";
+     
+     private void fetchMerchatName(){
+         
+         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling", "root", "");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM pos_metchant_name");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String MName = rs.getString("Merchant_Name");
+                Mname.setText(MName);
+            }
+
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(AddProducts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+     }
      
      private void fetchUnit(){
          
@@ -319,6 +343,7 @@ public class AddProducts extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel10.setText("Merchant Name");
 
+        Mname.setEditable(false);
         Mname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MnameActionPerformed(evt);
@@ -542,7 +567,8 @@ public class AddProducts extends javax.swing.JFrame {
             pID.requestFocus();
             unit.setSelectedIndex(0);
             category.setSelectedIndex(0);
-            
+            printName.setText("");
+           
             tableDisplay();
             
             JOptionPane.showMessageDialog(this,"Prouduct Added Successfuly");
@@ -650,7 +676,9 @@ public class AddProducts extends javax.swing.JFrame {
             pQty.setText("");
             pBarcode.setText("");
             pID.requestFocus();
-            
+            unit.setSelectedIndex(0);
+            category.setSelectedIndex(0);
+            printName.setText("");
             
             tableDisplay();
             
