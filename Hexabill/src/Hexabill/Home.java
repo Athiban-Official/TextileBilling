@@ -7,7 +7,6 @@ package Hexabill;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.Box;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;

@@ -1,5 +1,6 @@
 package Hexabill;
 
+import java.awt.Font;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
@@ -85,6 +86,9 @@ public class SellingProducts extends javax.swing.JFrame {
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButton3 = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         bill = new javax.swing.JTextArea();
 
@@ -418,6 +422,21 @@ public class SellingProducts extends javax.swing.JFrame {
             }
         });
 
+        jRadioButton1.setBackground(new java.awt.Color(0, 51, 204));
+        jRadioButton1.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        jRadioButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jRadioButton1.setText("CASH");
+
+        jRadioButton2.setBackground(new java.awt.Color(0, 51, 204));
+        jRadioButton2.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        jRadioButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jRadioButton2.setText("CARD");
+
+        jRadioButton3.setBackground(new java.awt.Color(0, 51, 204));
+        jRadioButton3.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        jRadioButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jRadioButton3.setText("ONLINE");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -425,27 +444,41 @@ public class SellingProducts extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(82, 82, 82)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jRadioButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRadioButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRadioButton3)))
                 .addContainerGap(94, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(72, 72, 72)
+                .addGap(50, 50, 50)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButton2)
+                    .addComponent(jRadioButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -469,9 +502,9 @@ public class SellingProducts extends javax.swing.JFrame {
                             .addComponent(txtTOT, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(56, 56, 56)
-                                .addComponent(jLabel8)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel8))))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -565,9 +598,9 @@ public class SellingProducts extends javax.swing.JFrame {
         qtyTXT.setText(totalQuantity +"Pcs");
         
         //txtTotalSum.setText(Float.toString(sum)+" "+"Rs");
-        txtTOT.setText(Float.toString(sum)+" "+"Rs");
-        amtTXT.setText(Float.toString(sum)+" "+"Rs");
-        netamtTXT.setText(Float.toString(sum)+" "+"Rs");
+        txtTOT.setText(Float.toString(sum));
+        amtTXT.setText(Float.toString(sum));
+        netamtTXT.setText(Float.toString(sum));
         
         txtBarcode_val.setText("");
         txtProductID.setText("");
@@ -876,53 +909,60 @@ public class SellingProducts extends javax.swing.JFrame {
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
 
-        try {
-            salesReport();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SellingProducts.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(SellingProducts.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        bill_print();
+//  salesReport();
+                bill_print();   
     }//GEN-LAST:event_btnPrintActionPerformed
 
-public void bill_print(){
- 
-        try {
-            bill.setText("                        HexaBill Software solutions \n");
-            bill.setText(bill.getText() + "\t16 V1, Asariyar street , \n");
-            bill.setText(bill.getText() + "\tTamilNadu, India, \n");
-            bill.setText(bill.getText() + "\t+91 95xxxxxxxx, \n");
-            bill.setText(bill.getText() + "----------------------------------------------------------------\n");
-            bill.setText(bill.getText() + " ProductName \tQty \tPrice \n");
-            bill.setText(bill.getText() + "----------------------------------------------------------------\n");
-            
-            DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
-            for (int i = 0; i < jTable1.getRowCount(); i++) {
-                
-                String name = df.getValueAt(i, 2).toString();
-                String qt = df.getValueAt(i, 4).toString();
-                String prc = df.getValueAt(i, 5).toString();
-                
-                bill.setText(bill.getText() + name+"\t"+qt+"\t"+prc+" \n");
-                
-            }
-            bill.setText(bill.getText() + "----------------------------------------------------------------\n");
-            bill.setText(bill.getText() + "SubTotal :\t"+txtTOT.getText().substring(0, txtTOT.getText().indexOf("Rs"))+"\n");
-            bill.setText(bill.getText() + "====================================\n");
-            bill.setText(bill.getText() +"                     Thanks For Your Business...!"+"\n");
-            bill.setText(bill.getText() + "----------------------------------------------------------------\n");
-            bill.setText(bill.getText() +"                     Software by HexaBill"+"\n");
-            
-            
-            bill.print();
-            
-        } catch (PrinterException ex) {
-            
-            Logger.getLogger(SellingProducts.class.getName()).log(Level.SEVERE, null, ex);
-        }
- 
- }
+public void bill_print() {
+  try {
+    String newline = "\n";
+    String tab = " ";
+
+    bill.setFont(new Font("Courier New", Font.PLAIN, 12));
+
+    bill.setText("HexaBill Software solutions" + newline);
+    bill.setText(bill.getText() + "16 V1, Asariyar street," + newline);
+    bill.setText(bill.getText() + "TamilNadu, India," + newline);
+    bill.setText(bill.getText() + "+91 95xxxxxxxx," + newline);
+    bill.setText(bill.getText() + "---------------------------------------" + newline);
+    bill.setText(bill.getText() + "ProductName" + tab + "Qty" + tab + "Price" + newline);
+    bill.setText(bill.getText() + "---------------------------------------" + newline);
+
+    DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
+    for (int i = 0; i < jTable1.getRowCount(); i++) {
+      String name = df.getValueAt(i, 2).toString();
+      String qt = df.getValueAt(i, 4).toString();
+      String prc = df.getValueAt(i, 5).toString();
+
+      bill.setText(bill.getText() + name + tab + qt + tab + prc + newline);
+    }
+
+    bill.setText(bill.getText() + "---------------------------------------" + newline);
+
+    String totalText = txtTOT.getText();
+    String subTotal = totalText.replaceAll("[^0-9.]+", "");
+
+    if (!subTotal.isEmpty()) {
+      bill.setText(bill.getText() + "SubTotal :" + tab + subTotal + newline);
+    } else {
+      bill.setText(bill.getText() + "SubTotal : Not Found" + newline);
+    }
+
+    bill.setText(bill.getText() + "=======================================" + newline);
+    bill.setText(bill.getText() + "Thanks For Your Business...!" + newline);
+    bill.setText(bill.getText() + "---------------------------------------" + newline);
+    bill.setText(bill.getText() + "Software by HexaBill" + newline);
+
+    bill.print();
+
+  } catch (PrinterException ex) {
+    Logger.getLogger(SellingProducts.class.getName()).log(Level.SEVERE, null, ex);
+  }
+}
+
+
+
+
 
 
 
@@ -966,6 +1006,9 @@ public void bill_print(){
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
@@ -1164,4 +1207,70 @@ private void SelectProducts(){
             System.out.println("Record inserted successfully!");
       
         }
+        
+        private void performSaveAction() {
+        try {
+            // Generate a unique bill number (you can customize this logic as per your requirements)
+            String billNumber = GenerateUniqueBillNumber();
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                String barcode = (String) model.getValueAt(i, 0);
+                String productID = (String) model.getValueAt(i, 1);
+                String productName = (String) model.getValueAt(i, 2);
+                float productPrice = (float) model.getValueAt(i, 3);
+                int productQty = (int) model.getValueAt(i, 4);
+                float total = (float) model.getValueAt(i, 5);
+
+                // Insert the product details into your database table
+                String insertQuery = "INSERT INTO your_sales_table (bill_number, barcode, product_id, product_name, product_price, product_qty, total) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement preparedStatement = con.prepareStatement(insertQuery);
+                preparedStatement.setString(1, billNumber);
+                preparedStatement.setString(2, barcode);
+                preparedStatement.setString(3, productID);
+                preparedStatement.setString(4, productName);
+                preparedStatement.setFloat(5, productPrice);
+                preparedStatement.setInt(6, productQty);
+                preparedStatement.setFloat(7, total);
+                preparedStatement.executeUpdate();
+
+                // Update the stock management database
+                updateStockManagement(productID, productQty);
+            }
+
+            // Add code for generating the bill (if required)
+
+            // Clear the table after saving
+            model.setRowCount(0);
+
+            // Reset other fields
+            qtyTXT.setText("");
+            txtTOT.setText("");
+            amtTXT.setText("");
+            netamtTXT.setText("");
+            // ... (reset other fields)
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any database errors
+        }
+    }
+
+    private String GenerateUniqueBillNumber() {
+        // Implement your logic to generate a unique bill number (e.g., combination of date and a unique identifier)
+        return "BILL-" + System.currentTimeMillis(); // Example: BILL-1632772197762
+    }
+
+    private void updateStockManagement(String productID, int soldQty) {
+        try {
+            String updateQuery = "UPDATE your_stock_table SET quantity = quantity - ? WHERE product_id = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(updateQuery);
+            preparedStatement.setInt(1, soldQty);
+            preparedStatement.setString(2, productID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any database errors
+        }
+}
+        
 }

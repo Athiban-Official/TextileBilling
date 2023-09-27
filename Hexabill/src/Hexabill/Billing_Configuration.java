@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,18 +28,19 @@ public class Billing_Configuration extends javax.swing.JFrame {
         populateComboBox();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
-        discount_Type.addItem("NONE");
-        discount_Type.addItem("FLAT");
-        discount_Type.addItem("PERCENTAGE");
+        bill_discount_Type.addItem("NONE");
+        bill_discount_Type.addItem("FLAT");
+        bill_discount_Type.addItem("PERCENTAGE");
         
         round_of_billType.addItem("NONE");
         round_of_billType.addItem("LOWER");
         round_of_billType.addItem("HIGHER");
         round_of_billType.addItem("AUTO");
         
-        
-
     }
+    
+    Connection con1;
+    PreparedStatement insert;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,17 +52,17 @@ public class Billing_Configuration extends javax.swing.JFrame {
      private void populateComboBox() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling", "root", "");
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM merchant_conf");
-            ResultSet rs = ps.executeQuery();
+            Connection con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling", "root", "");
+            insert = con1.prepareStatement("SELECT * FROM merchant_conf");
+            ResultSet rs = insert.executeQuery();
             while (rs.next()) {
                 String itemName = rs.getString("Merchant_Name");
-                comboBox.addItem(itemName);
+                combo_mname.addItem(itemName);
             }
 
             rs.close();
-            ps.close();
-            con.close();
+            insert.close();
+            con1.close();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(SellingProducts.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -71,20 +73,20 @@ public class Billing_Configuration extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        comboBox = new javax.swing.JComboBox<>();
+        combo_mname = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        discount_Type = new javax.swing.JComboBox<>();
-        jTextField3 = new javax.swing.JTextField();
+        bill_no_prefix = new javax.swing.JTextField();
+        bill_num_suffix = new javax.swing.JTextField();
+        bill_discount_Type = new javax.swing.JComboBox<>();
+        bill_discount_value = new javax.swing.JTextField();
         round_of_billType = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        btn_Save = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        close = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -92,9 +94,10 @@ public class Billing_Configuration extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Roboto", 1, 15)); // NOI18N
         jLabel1.setText("Merchant Name");
 
-        comboBox.addActionListener(new java.awt.event.ActionListener() {
+        combo_mname.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NONE" }));
+        combo_mname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxActionPerformed(evt);
+                combo_mnameActionPerformed(evt);
             }
         });
 
@@ -113,13 +116,28 @@ public class Billing_Configuration extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Roboto", 1, 15)); // NOI18N
         jLabel6.setText("Round Of Bill Amount");
 
-        discount_Type.setName(""); // NOI18N
+        bill_discount_Type.setName(""); // NOI18N
 
-        jButton1.setText("Save");
+        btn_Save.setText("Save");
+        btn_Save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_SaveActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Reset");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Close");
+        close.setText("Close");
+        close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setText("Billing Configuration");
@@ -141,17 +159,17 @@ public class Billing_Configuration extends javax.swing.JFrame {
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2)
-                            .addComponent(discount_Type, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField3)
+                            .addComponent(combo_mname, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bill_no_prefix)
+                            .addComponent(bill_num_suffix)
+                            .addComponent(bill_discount_Type, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bill_discount_value)
                             .addComponent(round_of_billType, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(185, 185, 185)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_Save, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)))
+                            .addComponent(close, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(500, 500, 500)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -165,40 +183,110 @@ public class Billing_Configuration extends javax.swing.JFrame {
                 .addGap(71, 71, 71)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(combo_mname, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bill_no_prefix, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bill_num_suffix, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(discount_Type, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bill_discount_Type, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_Save, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bill_discount_value, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(round_of_billType, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(close, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(135, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void comboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxActionPerformed
+    private void combo_mnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_mnameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_comboBoxActionPerformed
+    }//GEN-LAST:event_combo_mnameActionPerformed
 
+    private void btn_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SaveActionPerformed
+        // TODO add your handling code here:
+        
+        BtnSave();
+        
+    }//GEN-LAST:event_btn_SaveActionPerformed
+
+    private void closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeActionPerformed
+      
+        System.exit(0);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_closeActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+        combo_mname.setSelectedIndex(0);
+        bill_no_prefix.setText("");
+        bill_num_suffix.setText("");
+        bill_discount_Type.setSelectedIndex(0);
+        bill_discount_value.setText("");
+        round_of_billType.setSelectedIndex(0); 
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void BtnSave(){
+        
+       try{
+            
+            String mname = combo_mname.getSelectedItem().toString();
+            String Bill_no_prefix = bill_no_prefix.getText();
+            String Bill_no_suffix = bill_num_suffix.getText();
+            String Bill_discount_type = bill_discount_Type.getSelectedItem().toString();
+            float Bill_discount_Value = Float.parseFloat(bill_discount_value.getText());
+            String Round_of_billType = round_of_billType.getSelectedItem().toString();
+            
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con1 = DriverManager.getConnection("jdbc:mysql://localhost/hexabilling","root","") ;
+            String query = "INSERT INTO billing_configuration (id, Merchant_Name,Bill_no_prefix,Bill_no_suffix,Bill_Disc_type,Bill_Disc_value,Round_of_bill_amt) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Merchant_Name = VALUES(Merchant_Name),Bill_no_prefix = VALUES(Bill_no_prefix),Bill_no_suffix = VALUES(Bill_no_suffix),"
+                    + "Bill_Disc_type = VALUES(Bill_Disc_type),Bill_Disc_value = VALUES(Bill_Disc_value),Round_of_bill_amt = VALUES(Round_of_bill_amt)";
+            PreparedStatement statement = con1.prepareStatement(query);
+            statement.setInt(1, 1);
+            statement.setString(2, mname);
+            statement.setString(3, Bill_no_prefix);
+            statement.setString(4, Bill_no_suffix);
+            statement.setString(5, Bill_discount_type);
+            statement.setFloat(6, Bill_discount_Value);
+            statement.setString(7, Round_of_billType);
+            
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this,"Billing Configuraton Saved Successfuly");
+                
+            } else {
+                JOptionPane.showMessageDialog(this,"No Changes ");
+            }
+
+            // Close the statement and connection
+            statement.close();
+            con1.close();
+            
+        }catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(POS_Setting.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -235,11 +323,14 @@ public class Billing_Configuration extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> comboBox;
-    private javax.swing.JComboBox<String> discount_Type;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> bill_discount_Type;
+    private javax.swing.JTextField bill_discount_value;
+    private javax.swing.JTextField bill_no_prefix;
+    private javax.swing.JTextField bill_num_suffix;
+    private javax.swing.JButton btn_Save;
+    private javax.swing.JButton close;
+    private javax.swing.JComboBox<String> combo_mname;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -247,9 +338,6 @@ public class Billing_Configuration extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JComboBox<String> round_of_billType;
     // End of variables declaration//GEN-END:variables
 }
